@@ -11,7 +11,7 @@ javascript: (function () { var form = $("iframe").filter(function () { return $(
 javascript: (function () { var form = $("iframe").filter(function () { return ($(this).css("visibility") == "visible") })[0].contentWindow; var id = form.Xrm.Page.data.entity.getId(); var etc = form.Xrm.Page.context.getQueryStringParameters().etc; form.Mscrm.RibbonActions.openFormProperties(id, etc); })();
 
 //get field value      
-javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; var v, f = prompt("Enter field name"); var a = form.Xrm.Page.getAttribute(f); switch (a.getAttributeType()) { case "optionset": case "boolean": v = a.getSelectedOption().text; break; case "lookup": v = a.getValue()[0].name; break; default: v = a.getValue(); break; } window.prompt('Copy to clipboard: Ctrl+C, Enter', v); })();
+javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; var v, f = window.prompt("Enter field name"); var a = form.Xrm.Page.getAttribute(f); switch (a.getAttributeType()) { case "optionset": case "boolean": v = a.getSelectedOption().text; break; case "lookup": v = a.getValue()[0].name; break; default: v = a.getValue(); break; } window.prompt('Copy to clipboard: Ctrl+C, Enter', v); })();
 
 //get entity typecode
 javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; var name = form.Xrm.Page.data.entity.getEntityName(); var typeCode = form.Xrm.Page.context.getQueryStringParameters().etc; if (typeCode) { window.prompt('Copy to clipboard: Ctrl+C, Enter', typeCode.toString() + " = " + name) } })();
