@@ -1,6 +1,7 @@
 
 /* Admin related bookmarklets */
-(function () {
+(function ()
+{
     //save & publish
     javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; form.SaveForm(false); form.SaveAndPublish(); })();
 
@@ -20,7 +21,7 @@
     javascript: (function () { var osa = ""; var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; form.Xrm.Page.ui.controls.forEach(function (c, i) { if (c.getControlType() == "optionset") { var osv = "<br /><b><u>Name: " + c.getName() + "</u></b><br />"; frames[0].$("#" + c.getName() + "_i").find("option").first().nextAll().each(function () { osv += "<div><i>Value:</i> " + $(this).attr("value") + " - <i>Text:</i> " + $(this).attr("title") + "</div>"; }); osa += "<div>" + osv + "</div>"; } }); (window.open("#", "#").document.open()).write("<div style='font-family:Segoe UI,Arial;font-size:11px;overflow:always'>" + osa + "</div>") })();
 
     //show hidden fields
-    javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; form.Xrm.Page.ui.controls.forEach(function (c) { try { c.setVisible(true); } catch (e) {} }); })();
+    javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; form.Xrm.Page.ui.controls.forEach(function (c) { try { c.setVisible(true); } catch (e) { } }); })();
 
     //get formtype
     javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; var ft = ["1 = CREATE", "2 = UPDATE", "3 = READ_ONLY", "4 = DISABLED", "5 = QUICK_CREATE", "6 = BULK_EDIT"]; window.prompt('Copy to clipboard: Ctrl+C, Enter', ft[(form.Xrm.Page.ui.getFormType()) - 1]); })();
@@ -32,12 +33,13 @@
     javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; form.Xrm.Page.ui.tabs.forEach(function (a) { try { a.setVisible(true); a.setDisplayState("expanded"); a.setLabel(a.getName()); a.sections.forEach(function (b) { try { b.setVisible(true); b.setLabel(a.getName()); } catch (e) { } }) } catch (e) { } }); form.Xrm.Page.data.entity.attributes.forEach(function (d) { try { d.setRequiredLevel("none"); } catch (e) { } }); form.Xrm.Page.ui.controls.forEach(function (c) { try { c.setVisible(true); c.setLabel(c.getName()); c.setDisabled(false); c.clearNotification(); } catch (e) { } }); })();
 
     //enable all fields
-    javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; form.Xrm.Page.ui.controls.forEach(function (c) { try { c.setDisabled(false); } catch (e) {} }); })();
+    javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; form.Xrm.Page.ui.controls.forEach(function (c) { try { c.setDisabled(false); } catch (e) { } }); })();
 })
 
 /* Record related bookmarklets */
-(function () {
-    //show properties dialog
+(function ()
+{
+    //show record properties
     javascript: (function () { var form = $("iframe").filter(function () { return ($(this).css("visibility") == "visible") })[0].contentWindow; var id = form.Xrm.Page.data.entity.getId(); var etc = form.Xrm.Page.context.getQueryStringParameters().etc; form.Mscrm.RibbonActions.openFormProperties(id, etc); })();
 
     //get field value      
@@ -50,7 +52,7 @@
     javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; var message = "The following fields are dirty: \n"; form.Xrm.Page.data.entity.attributes.forEach(function (attribute, index) { if (attribute.getIsDirty() == true) { message += "\u2219 " + attribute.getName() + "\n"; } }); alert(message); })();
 
     //get data Xml
-    javascript: (function () { var form = $("iframe").filter(function () { return ($(this).css('visibility') == 'visible') })[0].contentWindow; window.prompt("Copy to clipboard: Ctrl+C, Enter", form.Xrm.Page.data.entity.getDataXml)() })();
+    javascript: (function () { var form = $("iframe").filter(function () { return ($(this).css('visibility') == 'visible') })[0].contentWindow; window.prompt("Copy to clipboard: Ctrl+C, Enter", form.Xrm.Page.data.entity.getDataXml()); })();
 
     //create new record
     javascript: (function () { var form = $("iframe").filter(function () { return ($(this).css('visibility') == 'visible') })[0].contentWindow; try { var name = form.Xrm.Page.data.entity.getEntityName(); } catch (e) { } var y = prompt('Type the schema name of the entity to create:', name ? name : 'account'); if (y) { window.open(form.Xrm.Page.context.getClientUrl() + "/main.aspx?etn=" + y + "&pagetype=entityrecord"); } })();
@@ -58,7 +60,7 @@
     //activate record
     javascript: (function () { var form = $("iframe").filter(function () { return ($(this).css('visibility') == 'visible') })[0].contentWindow; form.Mscrm.CommandBarActions.activate(form.Xrm.Page.data.entity.getId(), form.Xrm.Page.data.entity.getEntityName()); })();
 
-    //get url
+    //get record url
     javascript: (function () { var url = document.getElementById('crmContentPanel').getAttribute('src'); if (url.indexOf('/read/page.aspx') == -1) { if (url.indexOf(Xrm.Page.context.getOrgUniqueName()) != -1) { window.prompt('Copy to clipboard: Ctrl+C, Enter', Xrm.Page.context.getClientUrl() + url.replace('/' + Xrm.Page.context.getOrgUniqueName(), '')); } else { window.prompt('Copy to clipboard: Ctrl+C, Enter', Xrm.Page.context.getClientUrl() + url); } } else { window.prompt('Copy to clipboard: Ctrl+C, Enter', window.location.href); } })();
 
     //get record id
@@ -70,7 +72,7 @@
     //save and new
     javascript: (function () { javascript: $("iframe").filter(function () { return ($(this).css('visibility') == 'visible') })[0].contentWindow.Xrm.Page.data.entity.save('saveandnew'); })();
 
-    //save and new
+    //save and close
     javascript: (function () { javascript: $("iframe").filter(function () { return ($(this).css('visibility') == 'visible') })[0].contentWindow.Xrm.Page.data.entity.save('saveandclose'); })();
 
     //refresh form
@@ -84,7 +86,8 @@
 })
 
 /* Navigation related bookmarklets */
-(function () {
+(function ()
+{
     //open CRM calendar
     javascript: (function () { var form = $("iframe").filter(function () { return $(this).css("visibility") == "visible" })[0].contentWindow; window.open(form.Xrm.Page.context.getClientUrl() + "/workplace/home_calendar.aspx"); })();
 
